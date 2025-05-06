@@ -1,9 +1,54 @@
+<?php
+// signup-user.php
+
+// Include your database connection here
+require_once 'db.php'; // This file should contain your MySQL connection setup
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get user input
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+
+    // Validate the inputs
+    if (empty($name) || empty($email) || empty($phone) || empty($password)) {
+        $error_message = "All fields are required.";
+    } else {
+        // Check if the email or phone already exists
+        $stmt = $conn->prepare('SELECT * FROM users WHERE email = ? OR phone = ?');
+        $stmt->bind_param('ss', $email, $phone);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $error_message = "Email or phone already registered.";
+        } else {
+            // Hash the password before storing it
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert the new user into the database
+            $stmt = $conn->prepare('INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)');
+            $stmt->bind_param('ssss', $name, $email, $phone, $hashed_password);
+            
+            if ($stmt->execute()) {
+                // Redirect to login page after successful registration
+                header('Location: login.html');
+                exit();
+            } else {
+                $error_message = "Registration failed. Please try again.";
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Sign In</title>
+  <title>User Registration</title>
   <style>
     * {
       margin: 0;
@@ -53,6 +98,7 @@
       color: #f5f5f5;
     }
 
+    input[type="text"],
     input[type="email"],
     input[type="tel"],
     input[type="password"] {
@@ -98,6 +144,15 @@
       transform: translateY(-2px) scale(1.03);
     }
 
+    .error-message {
+      color: #ff6b6b;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -121,8 +176,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>User Sign In</h1>
-    <form id="user-signin-form">
+    <h1>User Registration</h1>
+    <?php if (isset($error_message)): ?>
+      <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
+    <?php endif; ?>
+    <form method="POST" action="signup-user.php">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required />
+
       <label for="email">Email</label>
       <input type="email" id="email" name="email" placeholder="you@example.com" required />
 
@@ -132,34 +193,10 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-      <button type="submit" class="submit-btn">Sign In</button>
+      <br><br>
+
+      <button type="submit" class="submit-btn">Register</button>
     </form>
   </div>
-
-  <script>
-    const form = document.getElementById('user-signin-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-  
-      const formData = new FormData(form);
-  
-      try {
-        const response = await fetch('api/register.php', {  // You can change this to login.php later
-          method: 'POST',
-          body: formData
-        });
-  
-        const result = await response.json();
-        if (result.success) {
-          alert(result.message);
-          window.location.href = 'login.html'; // Or wherever appropriate
-        } else {
-          alert(result.message || 'Signup failed');
-        }
-      } catch (error) {
-        alert('Server error. Please try again later.');
-      }
-    });
-  </script>  
 </body>
 </html>
