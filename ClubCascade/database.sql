@@ -1,5 +1,5 @@
-CREATE DATABASE campusbuzz;
-USE campusbuzz;
+CREATE DATABASE ClubCascade;
+USE ClubCascade;
 
 CREATE TABLE Users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
