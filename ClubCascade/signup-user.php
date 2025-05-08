@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <label for="phone">Phone Number</label>
       <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required />
 
-      <label for="password">Password</label>
+      <label for="password">Password</label>  
       <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
       <br><br>
