@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Organiser Sign In</title>
+  <title>Login</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #6C3082, #AC91CE);
@@ -19,7 +18,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .container {
       background: rgba(251, 233, 231, 0.2);
       backdrop-filter: blur(15px);
@@ -28,12 +26,11 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       width: 90%;
-      max-width: 500px;
+      max-width: 720px;
       animation: fadeIn 1s ease;
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
-
     h1 {
       text-align: center;
       color: #FFD700;
@@ -41,21 +38,21 @@
       font-size: 2.2rem;
       animation: float 2.5s ease-in-out infinite;
     }
-
-    form {
+    .form {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-
+    .form-group {
+      position: relative;
+    }
     label {
+      display: block;
+      margin-bottom: 8px;
       font-weight: 600;
       color: #f5f5f5;
     }
-
-    input[type="email"],
-    input[type="tel"],
-    input[type="password"] {
+    input {
       width: 100%;
       padding: 14px 18px;
       font-size: 1rem;
@@ -65,11 +62,9 @@
       color: #fff;
       transition: all 0.4s ease;
     }
-
     input::placeholder {
       color: #ddd;
     }
-
     input:focus {
       border: 2px solid #A67C00;
       outline: none;
@@ -77,13 +72,12 @@
       box-shadow: 0 0 12px #A67C00;
       transform: scale(1.02);
     }
-
     .submit-btn {
       background: linear-gradient(45deg, #A67C00, #6C3082);
       padding: 14px;
       border: none;
       color: white;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       border-radius: 14px;
       cursor: pointer;
       font-weight: bold;
@@ -91,13 +85,11 @@
       letter-spacing: 1px;
       box-shadow: 0 5px 15px rgba(166, 124, 0, 0.4);
     }
-
     .submit-btn:hover {
       background: linear-gradient(45deg, #6C3082, #A67C00);
       box-shadow: 0 10px 25px rgba(172, 145, 206, 0.5);
       transform: translateY(-2px) scale(1.03);
     }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -108,65 +100,28 @@
         transform: scale(1);
       }
     }
-
     @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-5px);
-      }
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Organiser Sign In</h1>
-    <form id="org-signin-form">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="organiser@example.com" required />
-
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required />
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required />
-
-      <button type="submit" class="submit-btn">Sign In</button>
+    <h1>Login</h1>
+    <form class="form" action="login-submit.php" method="POST">
+      <div class="form-group">
+        <label for="identifier">Email or Phone Number</label>
+        <input type="text" id="identifier" name="identifier" placeholder="Enter email or phone" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required />
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
     </form>
   </div>
-
-  <script>
-    // Send data to Node.js backend
-    const form = document.getElementById('org-signin-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = {
-        email: form.email.value,
-        phone: form.phone.value,
-        password: form.password.value
-      };
-
-      try {
-        const response = await fetch('/api/login-organiser', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          alert('Login successful!');
-          window.location.href = '/organiser-dashboard';
-        } else {
-          alert(result.message || 'Login failed');
-        }
-      } catch (error) {
-        alert('Server error. Try again later.');
-      }
-    });
-  </script>
 </body>
 </html>
 
