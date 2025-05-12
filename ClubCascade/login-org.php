@@ -1,9 +1,61 @@
+<?php
+session_start();
+$error = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "clubcascade";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Sanitize user input
+    $identifier = trim($_POST['identifier']);
+    $password = trim($_POST['password']);
+
+    // Prepare SQL to prevent SQL injection
+    $stmt = $conn->prepare("SELECT org_id, org_email, password FROM organizers WHERE org_email = ?");
+    $stmt->bind_param("s", $identifier);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $organizer = $result->fetch_assoc();
+        
+        // Verify password
+        if (password_verify($password, $organizer['password'])) {
+            // Password is correct, start a new session
+            $_SESSION['org_id'] = $organizer['org_id'];
+            $_SESSION['org_email'] = $organizer['org_email'];
+            
+            // Redirect to organizer dashboard
+            header("Location: home-org.php");
+            exit();
+        } else {
+            $error = "Invalid password";
+        }
+    } else {
+        $error = "Organizer not found";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
+  <title>Organizer Login</title>
   <style>
     * {
       margin: 0;
@@ -90,6 +142,13 @@
       box-shadow: 0 10px 25px rgba(172, 145, 206, 0.5);
       transform: translateY(-2px) scale(1.03);
     }
+    .error {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: -15px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -109,11 +168,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>Login</h1>
-    <form class="form" action="login-submit.php" method="POST">
+    <h1>Organizer Login</h1>
+    <?php if (!empty($error)): ?>
+      <div class="error"><?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
+    <form class="form" method="POST">
       <div class="form-group">
-        <label for="identifier">Email or Phone Number</label>
-        <input type="text" id="identifier" name="identifier" placeholder="Enter email or phone" required />
+        <label for="identifier">Email</label>
+        <input type="email" id="identifier" name="identifier" placeholder="Enter your organizer email" required />
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -124,4 +186,3 @@
   </div>
 </body>
 </html>
-
