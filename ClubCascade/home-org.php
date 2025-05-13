@@ -99,7 +99,7 @@ if (isset($_GET['logout'])) {
       <ul>
         <li><a href="#home">Dashboard</a></li>
         <li><a href="#events">My Events</a></li>
-        <li><a href="add-events.html" class="btn-add">Add Event</a></li>
+        <li><a href="add-events.php" class="btn-add">Add Event</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
