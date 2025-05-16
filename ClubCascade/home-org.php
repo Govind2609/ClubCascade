@@ -44,7 +44,7 @@ if (isset($_GET['logout'])) {
       transition: all 0.3s ease;
     }
     .login-btn {
-      background-color: #6C3082;
+      background-color: #A67C00;
       color: white;
     }
     .signup-btn {
@@ -101,6 +101,7 @@ if (isset($_GET['logout'])) {
         <li><a href="#events">My Events</a></li>
         <li><a href="add-events.php" class="btn-add">Add Event</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li><a href="aboutus.html">About Us</li>
       </ul>
     </nav>
     <div class="auth-buttons">
