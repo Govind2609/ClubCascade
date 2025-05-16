@@ -106,7 +106,7 @@ if (isset($_GET['logout'])) {
         <li><a href="#home">Home</a></li>
         <li><a href="#events">Events</a></li>
         <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="aboutus.html">About Us</li>
+        <li><a href="aboutus.php">About Us</a></li>
       </ul>
     </nav>
     <div class="auth-buttons">

@@ -101,7 +101,7 @@ if (isset($_GET['logout'])) {
         <li><a href="#events">My Events</a></li>
         <li><a href="add-events.php" class="btn-add">Add Event</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="aboutus.html">About Us</li>
+        <li><a href="aboutus.php">About Us</a></li>
       </ul>
     </nav>
     <div class="auth-buttons">
