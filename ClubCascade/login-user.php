@@ -3,10 +3,10 @@ session_start();
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $servername = "localhost";
+    $servername = "127.0.0.1";
     $username = "root";
     $password = "";
-    $dbname = "clubcascade";
+    $dbname = "ClubCascade";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -28,13 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
-        
+
         // Verify password
         if (password_verify($password, $user['password'])) {
             // Password is correct, start a new session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['email'] = $user['email'];
-            
+
             // Redirect to dashboard or home page
             header("Location: home-user.php");
             exit();

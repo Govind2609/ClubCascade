@@ -7,10 +7,10 @@ if (!isset($_SESSION['org_id'])) {
     exit();
 }
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password = "";
-$dbname = "clubcascade";
+$dbname = "ClubCascade";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -37,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $organizer_id = $_SESSION['org_id'];
 
     // Check if venue is already booked for this date and time
-    $check_sql = "SELECT * FROM events 
-                 WHERE venue = '$venue' 
-                 AND event_date = '$date' 
+    $check_sql = "SELECT * FROM events
+                 WHERE venue = '$venue'
+                 AND event_date = '$date'
                  AND event_time = '$time'";
     $check_result = $conn->query($check_sql);
 
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #6C3082, #AC91CE);
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     justify-content: center;
     align-items: center;
   }
-  
+
   /* Glassmorphism Container */
   .container {
     background: rgba(251, 233, 231, 0.2); /* Hint of Red with transparency */
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
-  
+
   /* Header */
   h1 {
     text-align: center;
@@ -107,19 +107,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     font-size: 2.2rem;
     animation: float 2.5s ease-in-out infinite;
   }
-  
+
   /* Form Styling */
   .form {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
-  
+
   /* Form Group */
   .form-group {
     position: relative;
   }
-  
+
   label {
     display: block;
     margin-bottom: 8px;
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 input[type="file"] {
     display: none;
   }
-  
+
   /* Custom file upload button */
   .custom-file-label {
     display: inline-block;
@@ -146,13 +146,13 @@ input[type="file"] {
     font-weight: 500;
     width: fit-content;
   }
-  
+
   .custom-file-label:hover {
     background-color: #0046B3;
     transform: scale(1.03);
   }
-  
-  
+
+
   /* Inputs & Textareas */
   input[type="text"],
   input[type="date"],
@@ -169,12 +169,12 @@ input[type="file"] {
     transition: all 0.4s ease;
     box-shadow: inset 0 0 0 transparent;
   }
-  
+
   input::placeholder,
   textarea::placeholder {
     color: #ddd;
   }
-  
+
   input:focus,
   textarea:focus {
     border: 2px solid #A67C00;
@@ -183,7 +183,7 @@ input[type="file"] {
     box-shadow: 0 0 12px #A67C00;
     transform: scale(1.02);
   }
-  
+
   /* Button Styling */
   .submit-btn {
     background: linear-gradient(45deg, #A67C00, #6C3082);
@@ -198,13 +198,13 @@ input[type="file"] {
     letter-spacing: 1px;
     box-shadow: 0 5px 15px rgba(166, 124, 0, 0.4);
   }
-  
+
   .submit-btn:hover {
     background: linear-gradient(45deg, #6C3082, #A67C00);
     box-shadow: 0 10px 25px rgba(172, 145, 206, 0.5);
     transform: translateY(-2px) scale(1.03);
   }
-  
+
   /* Animations */
   @keyframes fadeIn {
     from {
@@ -216,7 +216,7 @@ input[type="file"] {
       transform: scale(1);
     }
   }
-  
+
   @keyframes float {
     0% {
       transform: translateY(0);
@@ -228,19 +228,19 @@ input[type="file"] {
       transform: translateY(0);
     }
   }
-  
+
   /* Responsive */
   @media (max-width: 600px) {
     .container {
       padding: 30px 20px;
     }
-  
+
     h1 {
       font-size: 1.7rem;
     }
   }
-  
-  
+
+
   </style>
 </head>
 <body>

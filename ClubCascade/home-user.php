@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start session at the beginning
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password = "";
-$dbname = "clubcascade";
+$dbname = "ClubCascade";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

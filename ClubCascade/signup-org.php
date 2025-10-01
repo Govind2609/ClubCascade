@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1";
 $user = "root";
 $pass = "";
 $db = "ClubCascade";
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Check if email already exists
-  $check = $conn->prepare("SELECT org_id FROM Organizers WHERE org_email = ?");
+  $check = $conn->prepare("SELECT org_id FROM organizers WHERE org_email = ?");
   $check->bind_param("s", $email);
   $check->execute();
   $check_result = $check->get_result();
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($check_result->num_rows > 0) {
     $register_error = "An organiser with this email already exists.";
   } else {
-    $stmt = $conn->prepare("INSERT INTO Organizers (org_name, org_email, password) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO organizers (org_name, org_email, password) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $org_name, $email, $hashed_password);
 
     if ($stmt->execute()) {

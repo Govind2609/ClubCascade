@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1";
 $username = "root";
 $password = ""; // default password for root in XAMPP is empty
 $database = "ClubCascade";
