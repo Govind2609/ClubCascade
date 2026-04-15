@@ -1,10 +1,20 @@
 <?php
 session_start(); // Start session at the beginning
 
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "ClubCascade";
+if (getenv('IS_DDEV_PROJECT') == 'true')
+  {
+    $servername = "db";
+    $username = "root";
+    $password = "root";
+    $dbname = "ClubCascade";
+  }
+else
+  {
+    $servername = "127.0.0.1";
+    $username = "root";
+    $password = "";
+    $dbname = "ClubCascade";
+  }
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
